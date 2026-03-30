@@ -1,0 +1,824 @@
+/* ============================================================
+   NoteSpace — Personal Notepad
+   style.css
+   100% Offline — tidak membutuhkan koneksi internet
+   ============================================================ */
+
+/* ── 0. Local Fonts (100% Offline) ───────────────────────── */
+
+/* Lora — Variable Font (semua weight dalam 1 file) */
+@font-face {
+  font-family: 'Lora';
+  src: url('fonts/Lora-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('fonts/Lora-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* DM Sans — Variable Font (semua weight dalam 1 file) */
+@font-face {
+  font-family: 'DM Sans';
+  src: url('fonts/DMSans-VariableFont_opsz_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('fonts/DMSans-Italic-VariableFont_opsz_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ── 1. CSS Variables (Theme) ─────────────────────────────── */
+:root {
+  /* Light theme */
+  --bg-app:          #f7f6f3;
+  --bg-sidebar:      #ffffff;
+  --bg-main:         #f7f6f3;
+  --bg-editor:       #ffffff;
+  --bg-note-hover:   #f2f0eb;
+  --bg-note-active:  #eae7df;
+  --bg-search:       #f2f0eb;
+  --bg-dialog:       #ffffff;
+  --bg-overlay:      rgba(0, 0, 0, 0.35);
+  --bg-btn-new:      #1a1a18;
+  --bg-btn-delete:   transparent;
+
+  --text-primary:    #1a1a18;
+  --text-secondary:  #6b6860;
+  --text-muted:      #a09d97;
+  --text-brand:      #1a1a18;
+  --text-btn-new:    #f7f6f3;
+  --text-danger:     #c0392b;
+
+  --border-subtle:   #e8e5de;
+  --border-input:    #dedad3;
+  --border-active:   #1a1a18;
+
+  --accent:          #c8b89a;
+  --accent-dot:      #4caf7d;
+  --accent-dot-saving: #e0a055;
+
+  --shadow-sm:       0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md:       0 4px 20px rgba(0,0,0,0.10);
+  --shadow-dialog:   0 20px 60px rgba(0,0,0,0.18);
+
+  --radius-sm:       6px;
+  --radius-md:       10px;
+  --radius-lg:       16px;
+
+  --font-display:    'Lora', Georgia, serif;
+  --font-body:       'DM Sans', system-ui, sans-serif;
+
+  --sidebar-w:       290px;
+  --transition:      0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --bg-app:          #141412;
+  --bg-sidebar:      #1c1c1a;
+  --bg-main:         #141412;
+  --bg-editor:       #1c1c1a;
+  --bg-note-hover:   #242420;
+  --bg-note-active:  #2c2c28;
+  --bg-search:       #242420;
+  --bg-dialog:       #222220;
+  --bg-overlay:      rgba(0, 0, 0, 0.60);
+  --bg-btn-new:      #f0ece4;
+  --bg-btn-delete:   transparent;
+
+  --text-primary:    #f0ece4;
+  --text-secondary:  #9a9790;
+  --text-muted:      #5e5c58;
+  --text-brand:      #f0ece4;
+  --text-btn-new:    #1a1a18;
+  --text-danger:     #e57373;
+
+  --border-subtle:   #2a2a26;
+  --border-input:    #333330;
+  --border-active:   #f0ece4;
+
+  --accent:          #8a7a66;
+  --accent-dot:      #4caf7d;
+  --accent-dot-saving: #e0a055;
+
+  --shadow-sm:       0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md:       0 4px 20px rgba(0,0,0,0.4);
+  --shadow-dialog:   0 20px 60px rgba(0,0,0,0.5);
+}
+
+/* ── 2. Reset & Base ──────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: background var(--transition), color var(--transition);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+input, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  border: none;
+  outline: none;
+  background: none;
+  resize: none;
+}
+
+ul { list-style: none; }
+
+/* ── 3. Sidebar ───────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-icon {
+  font-size: 18px;
+  color: var(--accent);
+  display: inline-block;
+  animation: spin-slow 8s linear infinite;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-brand);
+}
+
+/* Theme toggle */
+.theme-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-search);
+  color: var(--text-secondary);
+  font-size: 1rem;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.theme-toggle:hover {
+  background: var(--bg-note-hover);
+  transform: rotate(20deg);
+}
+
+/* New Note Button */
+.btn-new {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 16px 12px;
+  padding: 10px 16px;
+  background: var(--bg-btn-new);
+  color: var(--text-btn-new);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.btn-new:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.btn-new:active {
+  transform: translateY(0);
+}
+
+.btn-new-icon {
+  font-size: 1.1rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* Search */
+.search-wrap {
+  position: relative;
+  margin: 0 16px 8px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg-search);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 8px 32px 8px 30px;
+  font-size: 0.83rem;
+  color: var(--text-primary);
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-input:focus {
+  border-color: var(--border-active);
+  background: var(--bg-editor);
+}
+
+.search-clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  width: 18px;
+  height: 18px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background var(--transition);
+}
+
+.search-clear:hover {
+  background: var(--bg-note-hover);
+  color: var(--text-primary);
+}
+
+.search-clear.visible {
+  display: flex;
+}
+
+/* Notes meta */
+.notes-meta {
+  padding: 4px 18px 8px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+/* Notes list */
+.notes-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 8px 16px;
+  scroll-behavior: smooth;
+}
+
+.notes-list::-webkit-scrollbar {
+  width: 3px;
+}
+
+.notes-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notes-list::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 3px;
+}
+
+/* Note item */
+.note-item {
+  padding: 11px 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+  animation: slideIn 0.22s ease both;
+  border: 1px solid transparent;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.note-item:hover {
+  background: var(--bg-note-hover);
+}
+
+.note-item.active {
+  background: var(--bg-note-active);
+  border-color: var(--border-subtle);
+}
+
+.note-item-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+
+.note-item-preview {
+  font-size: 0.775rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+
+.note-item-date {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* Highlight search match */
+.note-item mark {
+  background: rgba(200, 184, 154, 0.45);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+/* Empty sidebar */
+.empty-sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  text-align: center;
+  gap: 8px;
+}
+
+.empty-sidebar-icon {
+  font-size: 2rem;
+  opacity: 0.5;
+}
+
+.empty-sidebar p {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+}
+
+/* ── 4. Main Editor Area ──────────────────────────────────── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-main);
+  transition: background var(--transition);
+}
+
+/* Editor wrap */
+.editor-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 0 0 0;
+  animation: editorFadeIn 0.25s ease both;
+}
+
+@keyframes editorFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Toolbar */
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 36px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-editor);
+  transition: background var(--transition), border-color var(--transition);
+  flex-shrink: 0;
+}
+
+.editor-meta {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.editor-meta span {
+  display: block;
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Auto-save indicator */
+.autosave-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.autosave-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-dot);
+  transition: background 0.3s;
+}
+
+.autosave-indicator.saving .autosave-dot {
+  background: var(--accent-dot-saving);
+  animation: pulse 1s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.autosave-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Delete button */
+.btn-delete {
+  font-size: 0.8rem;
+  color: var(--text-danger);
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: background var(--transition), border-color var(--transition);
+  font-weight: 500;
+}
+
+.btn-delete:hover {
+  background: rgba(192, 57, 43, 0.08);
+  border-color: rgba(192, 57, 43, 0.2);
+}
+
+/* Editor title */
+.editor-title {
+  width: 100%;
+  padding: 28px 36px 8px;
+  background: var(--bg-editor);
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  border-bottom: none;
+  flex-shrink: 0;
+  transition: background var(--transition);
+}
+
+.editor-title::placeholder {
+  color: var(--border-input);
+  font-style: italic;
+}
+
+/* Divider between title and body */
+.editor-title:not(:placeholder-shown) + .editor-body,
+.editor-title:focus + .editor-body {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Editor body */
+.editor-body {
+  flex: 1;
+  width: 100%;
+  padding: 20px 36px 36px;
+  background: var(--bg-editor);
+  font-family: var(--font-body);
+  font-size: 0.975rem;
+  line-height: 1.75;
+  font-weight: 300;
+  color: var(--text-primary);
+  overflow-y: auto;
+  transition: background var(--transition);
+}
+
+.editor-body::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.editor-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.editor-body::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
+}
+
+/* ── 5. Empty State (Main) ────────────────────────────────── */
+.empty-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: editorFadeIn 0.35s ease both;
+}
+
+.empty-main-content {
+  text-align: center;
+  max-width: 340px;
+  padding: 40px 20px;
+}
+
+.empty-main-icon {
+  font-size: 3rem;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: block;
+  animation: spin-slow 8s linear infinite;
+}
+
+.empty-main-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.empty-main-sub {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.btn-empty-create {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 24px;
+  background: var(--bg-btn-new);
+  color: var(--text-btn-new);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.btn-empty-create:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* ── 6. Dialog (Confirm Delete) ───────────────────────────── */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  backdrop-filter: blur(2px);
+}
+
+.dialog-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.dialog {
+  background: var(--bg-dialog);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px 24px;
+  max-width: 340px;
+  width: 90%;
+  box-shadow: var(--shadow-dialog);
+  text-align: center;
+  transform: scale(0.94) translateY(8px);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 1px solid var(--border-subtle);
+}
+
+.dialog-overlay.open .dialog {
+  transform: scale(1) translateY(0);
+}
+
+.dialog-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.dialog-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.dialog-body {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 24px;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.btn-cancel {
+  padding: 9px 22px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-input);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-search);
+  transition: background var(--transition);
+}
+
+.btn-cancel:hover {
+  background: var(--bg-note-hover);
+}
+
+.btn-confirm {
+  padding: 9px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #fff;
+  background: #c0392b;
+  transition: opacity var(--transition);
+}
+
+.btn-confirm:hover {
+  opacity: 0.85;
+}
+
+/* ── 7. Toast Notification ────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--text-primary);
+  color: var(--bg-editor);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  white-space: nowrap;
+  z-index: 200;
+  letter-spacing: 0.01em;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── 8. Scrollbar global ──────────────────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-subtle) transparent;
+}
+
+/* ── 9. Selection ─────────────────────────────────────────── */
+::selection {
+  background: rgba(200, 184, 154, 0.4);
+}
+
+/* ── 10. Responsive (mobile) ─────────────────────────────── */
+@media (max-width: 680px) {
+  :root {
+    --sidebar-w: 100vw;
+  }
+
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 50;
+    transform: translateX(0);
+    transition: transform var(--transition);
+  }
+
+  .sidebar.hidden-mobile {
+    transform: translateX(-100%);
+  }
+
+  .main {
+    width: 100%;
+    height: 100vh;
+  }
+
+  .editor-title {
+    font-size: 1.35rem;
+    padding: 20px 18px 8px;
+  }
+
+  .editor-body {
+    padding: 16px 18px 24px;
+  }
+
+  .editor-toolbar {
+    padding: 12px 18px;
+  }
+}

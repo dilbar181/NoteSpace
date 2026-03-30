@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoteSpace — Personal Notepad</title>
+  <!-- Tidak ada dependency external — 100% offline ready -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Brand -->
+    <div class="sidebar-header">
+      <div class="brand">
+        <span class="brand-icon">✦</span>
+        <span class="brand-name">NoteSpace</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+        <span class="theme-icon" id="themeIcon">◐</span>
+      </button>
+    </div>
+
+    <!-- New Note Button -->
+    <button class="btn-new" id="btnNew">
+      <span class="btn-new-icon">+</span>
+      <span>Catatan Baru</span>
+    </button>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input
+        type="text"
+        class="search-input"
+        id="searchInput"
+        placeholder="Cari catatan..."
+        autocomplete="off"
+      />
+      <button class="search-clear" id="searchClear" title="Hapus pencarian">✕</button>
+    </div>
+
+    <!-- Notes Count -->
+    <div class="notes-meta">
+      <span id="notesCount">0 catatan</span>
+    </div>
+
+    <!-- Notes List -->
+    <ul class="notes-list" id="notesList">
+      <!-- Diisi oleh JavaScript -->
+    </ul>
+
+    <!-- Empty State Sidebar -->
+    <div class="empty-sidebar" id="emptySidebar" style="display:none;">
+      <div class="empty-sidebar-icon">📭</div>
+      <p>Tidak ada catatan ditemukan</p>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN EDITOR ===== -->
+  <main class="main" id="main">
+
+    <!-- Editor aktif -->
+    <div class="editor-wrap" id="editorWrap" style="display:none;">
+
+      <!-- Toolbar -->
+      <div class="editor-toolbar">
+        <div class="editor-meta" id="editorMeta">
+          <!-- Diisi JS: tanggal dibuat / diupdate -->
+        </div>
+        <div class="toolbar-actions">
+          <span class="autosave-indicator" id="autosaveIndicator">
+            <span class="autosave-dot"></span>
+            <span class="autosave-label" id="autosaveLabel">Tersimpan</span>
+          </span>
+          <button class="btn-delete" id="btnDelete" title="Hapus catatan">
+            <span>Hapus</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <input
+        type="text"
+        class="editor-title"
+        id="editorTitle"
+        placeholder="Judul catatan..."
+        maxlength="120"
+        autocomplete="off"
+      />
+
+      <!-- Body -->
+      <textarea
+        class="editor-body"
+        id="editorBody"
+        placeholder="Mulai menulis sesuatu yang luar biasa…"
+      ></textarea>
+
+    </div>
+
+    <!-- Empty State Main (tidak ada catatan dipilih) -->
+    <div class="empty-main" id="emptyMain">
+      <div class="empty-main-content">
+        <div class="empty-main-icon">✦</div>
+        <h2 class="empty-main-title">NoteSpace</h2>
+        <p class="empty-main-sub">Ruang catatan pribadimu yang bersih dan tenang.</p>
+        <button class="btn-empty-create" id="btnEmptyCreate">
+          Buat catatan pertama →
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===== DIALOG KONFIRMASI HAPUS ===== -->
+  <div class="dialog-overlay" id="dialogOverlay">
+    <div class="dialog">
+      <div class="dialog-icon">🗑️</div>
+      <h3 class="dialog-title">Hapus Catatan?</h3>
+      <p class="dialog-body">Catatan ini akan dihapus permanen dan tidak bisa dikembalikan.</p>
+      <div class="dialog-actions">
+        <button class="btn-cancel" id="btnCancel">Batal</button>
+        <button class="btn-confirm" id="btnConfirm">Ya, Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST NOTIFICATION ===== -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
